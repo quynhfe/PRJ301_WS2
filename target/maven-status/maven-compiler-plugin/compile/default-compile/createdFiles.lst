@@ -1,0 +1,16 @@
+controller\LoginServlet.class
+data\UserDB.class
+controller\UpdateServlet.class
+data\DBContext.class
+controller\RegistrationServlet.class
+data\TranslogDB.class
+data\CustomerDB.class
+controller\TransferServlet.class
+com\mycompany\prj301_ws2\resources\JakartaEE10Resource.class
+common\Constant.class
+com\mycompany\prj301_ws2\JakartaRestConfiguration.class
+model\Account.class
+model\Customer.class
+data\AccountDB.class
+model\User.class
+model\Translog.class
