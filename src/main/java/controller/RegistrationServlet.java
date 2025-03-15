@@ -4,16 +4,16 @@
  */
 package controller;
 
+import data.AccountDB;
 import data.CustomerDB;
-import data.UserDB;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import model.Account;
 import model.Customer;
-import model.User;
 
 /**
  *
@@ -21,15 +21,6 @@ import model.User;
  */
 public class RegistrationServlet extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -47,15 +38,7 @@ public class RegistrationServlet extends HttpServlet {
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -66,7 +49,7 @@ public class RegistrationServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         CustomerDB customerDB = new CustomerDB();
-        UserDB userDB = new UserDB();
+        AccountDB accountDB = new AccountDB();
         String idNo = request.getParameter("idNo");
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
@@ -74,25 +57,30 @@ public class RegistrationServlet extends HttpServlet {
         String email = request.getParameter("email");
         String address = request.getParameter("address");
         double initialBalance = Double.parseDouble(request.getParameter("initialBalance"));
-        String username = request.getParameter("username");
         String password = request.getParameter("password");
-        for (User user : userDB.getAllUser()) {
-            if (user.getUsername().equals(username)) {
-                request.setAttribute("message", "* username is existed");
+        for (Customer c : customerDB.getAllCustomer()) {
+            if (c.getIdNo().equals(idNo)) {
+                request.setAttribute("message1", "* This user had been a bank account");
+                request.getRequestDispatcher("/view/register.jsp").forward(request, response);
+            }
+            if (c.getEmail().equals(email)) {
+                request.setAttribute("message2", "* email is existed");
                 request.getRequestDispatcher("/view/register.jsp").forward(request, response);
             }
         }
-        Customer c = new Customer(idNo, firstName, lastName, phoneNo, email, address, initialBalance, phoneNo);
-        User u = new User(username, password, idNo);
-        userDB.addUser(u);
-        customerDB.addCustomer(c);
-        request.setAttribute("customer", c);
-        request.getRequestDispatcher("/view/login.jsp").forward(request, response);
+        Customer cus = new Customer(idNo, firstName, lastName, phoneNo, email, address, initialBalance, password);
+        Account acc = new Account(idNo, initialBalance);
+        customerDB.addCustomer(cus);
+        accountDB.addAccount(acc);
+        request.setAttribute("accountNo", acc.getAccountNo());
+        request.setAttribute("customer", cus);
+        request.getRequestDispatcher("/view/register.jsp").forward(request, response);
     }
 
-
+    
     @Override
     public String getServletInfo() {
+        
         return "Short description";
     }// </editor-fold>
 

@@ -4,7 +4,7 @@
  */
 package controller;
 
-import data.UserDB;
+import data.CustomerDB;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
-import model.User;
+import model.Customer;
 
 /**
  *
@@ -21,15 +21,6 @@ import model.User;
  */
 public class LoginServlet extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -47,31 +38,30 @@ public class LoginServlet extends HttpServlet {
         }
     }
 
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        request.getRequestDispatcher("/view/login.jsp").forward(request, response);
     }
-
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        UserDB userdb = new UserDB();
-        ArrayList<User> userList = userdb.getAllUser();
-        String username = request.getParameter("username");
+        CustomerDB customerDB = new CustomerDB();
+        ArrayList<Customer> cusList = customerDB.getAllCustomer();
+        String email = request.getParameter("email");
         String password = request.getParameter("password");
-        for (User u : userList) {
-            if (u.getUsername().equalsIgnoreCase(username) && u.getPassword().equals(password)) {
-                session.setAttribute("username", username);
+        for (Customer c : cusList) {
+            if (c.getEmail().equals(email) && c.getPassword().equals(password)) {
+                session.setAttribute("email", email);
                 session.setAttribute("password", password);
-                session.setAttribute("user", u);
+                request.setAttribute("name", c.getFirstName() + " " + c.getLastName());
+                session.setAttribute("customer", c);
                 request.getRequestDispatcher("/view/dashBoard.jsp").forward(request, response);
             }
         }
-        request.setAttribute("error", "Wrong username or password");
+        request.setAttribute("error", "Wrong email or password");
         request.getRequestDispatcher("/view/login.jsp").forward(request, response);
     }
 

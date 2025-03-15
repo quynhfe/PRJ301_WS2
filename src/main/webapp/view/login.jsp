@@ -10,7 +10,6 @@
 <html>
     <head>
         <title>E-Banking System</title>
-        <!--        <link rel="stylesheet" type="text/css" href="../css/style.css">-->
         <link rel="stylesheet" type="text/css" href="<%= request.getContextPath()%>/css/style.css">
         <script src="js/script.js"></script>
     </head>
@@ -26,8 +25,8 @@
         </c:if>
 
         <form action="<%= request.getContextPath()%>/loginServlet" method="post">
-            <label>Username:</label>
-            <input type="text" name="username" required>
+            <label>Email:</label>
+            <input type="text" name="email" required>
             <label>Password:</label>
             <input type="password" name="password" required>
             <button type="submit">Login</button>

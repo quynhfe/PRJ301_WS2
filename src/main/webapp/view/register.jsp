@@ -5,6 +5,8 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -13,9 +15,10 @@
     </head>
     <body>
         <h2>Register New Account</h2>
-        <form action="../registrationServlet" method="post">
-            <label>ID Number:</label>
+        <form action="<%= request.getContextPath()%>/registrationServlet" method="post">
+            <label>ID Card:</label>
             <input type="text" name="idNo" required>
+            <p style="color: red; display:flex;">${message1}</p>
 
             <label>First Name:</label>
             <input type="text" name="firstName" required>
@@ -28,6 +31,7 @@
 
             <label>Email:</label>
             <input type="email" name="email" required>
+            <p style="color: red; display:flex;">${message2}</p>
 
             <label>Address:</label>
             <input type="text" name="address" required>
@@ -35,10 +39,6 @@
             <label>Initial Balance:</label>
             <input type="number" name="initialBalance" required min="100">
 
-            <label>Username: </label>
-            <input type="username" name="username" required>
-            <p style="color: red; display:flex;">${message}</p>
-            
             <label>Password:</label>
             <input type="password" name="password" required>
 
@@ -48,7 +48,16 @@
             <button type="submit">Register</button>
         </form>
 
-        <p>Already have an account? <a href="/view/login.jsp">Login here</a></p>
+        <c:if test="${not empty accountNo}">
+            <div class="backdrop"></div>
+            <div class="error-form">
+                <h3>Your account No: </h3>
+                <p>${accountNo}</p>
+                <a href="<%= request.getContextPath()%>/view/register.jsp" style="display: block; margin-top: 10px; color: blue;">Ok</a>
+            </div>
+        </c:if>
+
+        <p>Already have an account? <a href="<%= request.getContextPath()%>/view/login.jsp">Login here</a></p>
     </body>
 </html>
 

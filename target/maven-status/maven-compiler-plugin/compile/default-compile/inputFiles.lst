@@ -1,15 +1,14 @@
-D:\School\prj301\project\PRJ301_WS2\src\main\java\data\UserDB.java
 D:\School\prj301\project\PRJ301_WS2\src\main\java\com\mycompany\prj301_ws2\resources\JakartaEE10Resource.java
 D:\School\prj301\project\PRJ301_WS2\src\main\java\data\TranslogDB.java
 D:\School\prj301\project\PRJ301_WS2\src\main\java\model\Translog.java
 D:\School\prj301\project\PRJ301_WS2\src\main\java\data\CustomerDB.java
 D:\School\prj301\project\PRJ301_WS2\src\main\java\controller\TransferServlet.java
 D:\School\prj301\project\PRJ301_WS2\src\main\java\model\Customer.java
+D:\School\prj301\project\PRJ301_WS2\src\main\java\controller\ChangePasswordServlet.java
 D:\School\prj301\project\PRJ301_WS2\src\main\java\controller\RegistrationServlet.java
 D:\School\prj301\project\PRJ301_WS2\src\main\java\model\Account.java
 D:\School\prj301\project\PRJ301_WS2\src\main\java\controller\LoginServlet.java
 D:\School\prj301\project\PRJ301_WS2\src\main\java\data\AccountDB.java
-D:\School\prj301\project\PRJ301_WS2\src\main\java\model\User.java
 D:\School\prj301\project\PRJ301_WS2\src\main\java\com\mycompany\prj301_ws2\JakartaRestConfiguration.java
 D:\School\prj301\project\PRJ301_WS2\src\main\java\common\Constant.java
 D:\School\prj301\project\PRJ301_WS2\src\main\java\controller\UpdateServlet.java

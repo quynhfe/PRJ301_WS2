@@ -11,28 +11,33 @@
 <html>
     <head>
         <title>Dashboard</title>
-        <link rel="stylesheet" type="text/css" href="../css/style.css">
     </head>
 
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
             margin: 0;
             padding: 0;
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            background: url('https://cdn.hdbank.com.vn/hdbank-file/news/editor/QXbkRDURCXHiFoPOCHRq20221223145546/chuyentiennhanh1_1671782268394.jpg') no-repeat center center;
+            background-size: cover;
+            position: relative;
+            display: flex;
         }
 
         .dashboard {
-            background: #fff;
+            /*background: rgba(255, 255, 255, 0.2);  Tạo hiệu ứng mờ */
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            /*box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);*/
             text-align: center;
             width: 350px;
+            height: 300px;
+            backdrop-filter: blur(10px); /* Hiệu ứng làm mờ nền */
+            margin-top: 250px;
         }
 
         h2 {
@@ -42,10 +47,12 @@
         ul {
             list-style: none;
             padding: 0;
+            
         }
 
         ul li {
             margin: 15px 0;
+            
         }
 
         ul li a {
@@ -60,27 +67,25 @@
 
         ul li a:hover {
             background: #ef4565;
-        }
-
-        .logout-btn {
-            background: #ef4565 !important;
+            color: white;
         }
 
     </style>
     <body>
+            <h1 style="color: white; font-size:  80px; width: 50%; height: 100%; display: flex; flex-direction: column; justify-content: start; padding-top: 100px">E- Banking</h1>
+            <div class="dashboard">
+                <c:if test="${not empty sessionScope.name}">
+                    <p>Welcome, ${sessionScope.name}!</p>
+                </c:if>
 
-        <div class="dashboard">
-            <c:if test="${not empty sessionScope.username}">
-                <p>Welcome, ${sessionScope.username}!</p>
-            </c:if>
-            <ul>
-                <li><a href="<%= request.getContextPath()%>/view/changePassword.jsp">Change Password</a></li>
-                <li><a href="<%= request.getContextPath()%>/view/updateInformation.jsp">Update Personal Information</a></li>
-                <li><a href="<%= request.getContextPath()%>/view/transferMoney.jsp">Transfer Money</a></li>
-                <li><a href="<%= request.getContextPath()%>/view/transactionLog.jsp">View Transaction & Activity Log</a></li>
-                <li><a href="<%= request.getContextPath()%>/view/login.jsp" class="logout-btn">Logout</a></li>
-            </ul>
-        </div>
+                <ul>
+                    <li><a href="<%= request.getContextPath()%>/view/changePassword.jsp">Change Password</a></li>
+                    <li><a href="<%= request.getContextPath()%>/view/updateInformation.jsp">Update Personal Information</a></li>
+                    <li><a href="<%= request.getContextPath()%>/view/transferMoney.jsp">Transfer Money</a></li>
+                    <li><a href="<%= request.getContextPath()%>/view/transactionLog.jsp">View Transaction & Activity Log</a></li>
+                    <li><a href="<%= request.getContextPath()%>/view/login.jsp" class="logout-btn">LOG OUT</a></li>
+                </ul>
+            </div>
 
     </body>
 </html>

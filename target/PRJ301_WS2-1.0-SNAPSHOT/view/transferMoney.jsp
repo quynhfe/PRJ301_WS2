@@ -9,14 +9,14 @@
 <html>
 <head>
     <title>Transfer Money</title>
-    <link rel="stylesheet" type="text/css" href="../css/style.css">
+    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath()%>/css/style.css">
 </head>
 <body>
     <h2>Transfer Money</h2>
     
-    <form action="transferServlet" method="post">
+    <form action="<%= request.getContextPath()%>/transferServlet" method="post">
         <label>Your Account Number:</label>
-        <input type="text" name="fromAccount" value="${sessionScope.user.accountNo}" readonly>
+        <input type="text" name="fromAccount" value="${sessionScope.fromAccount.accountNo}" readonly>
         
         <label>Recipient Account Number:</label>
         <input type="text" name="toAccount" required>
@@ -27,7 +27,7 @@
         <button type="submit">Transfer</button>
     </form>
 
-    <p><a href="dashboard.jsp">Back to Dashboard</a></p>
+    <p><a href="<%= request.getContextPath()%>/view/dashBoard.jsp">Back to Dashboard</a></p>
 </body>
 </html>
 

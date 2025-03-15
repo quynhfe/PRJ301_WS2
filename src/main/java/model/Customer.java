@@ -10,7 +10,6 @@ package model;
  */
 public class Customer {
 //    idNo, firstName, lastName, phoneNo, email, address, initialBalance, password. Customer photo is optional. 
-
     private String idNo;
     private String firstName;
     private String lastName;
@@ -18,13 +17,12 @@ public class Customer {
     private String email;
     private String address;
     private double initialBalance;
-    private int custID;
-    private String accountNo;
+    private String password;
 
     public Customer() {
     }
 
-    public Customer(String idNo, String firstName, String lastName, String phoneNo, String email, String address, double initialBalance, String accountNo) {
+    public Customer(String idNo, String firstName, String lastName, String phoneNo, String email, String address, double initialBalance, String password) {
         this.idNo = idNo;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -32,23 +30,15 @@ public class Customer {
         this.email = email;
         this.address = address;
         this.initialBalance = initialBalance;
-        this.accountNo = accountNo;
+        this.password = password;
     }
 
-    public int getCustID() {
-        return custID;
+    public String getPassword() {
+        return password;
     }
 
-    public void setCustID(int custID) {
-        this.custID = custID;
-    }
-
-    public String getAccountNo() {
-        return accountNo;
-    }
-
-    public void setAccountNo(String accountNo) {
-        this.accountNo = accountNo;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getIdNo() {
@@ -105,6 +95,11 @@ public class Customer {
 
     public void setInitialBalance(double initialBalance) {
         this.initialBalance = initialBalance;
+    }
+
+    @Override
+    public String toString() {
+        return "Customer{" + "idNo=" + idNo + ", firstName=" + firstName + ", lastName=" + lastName + ", phoneNo=" + phoneNo + ", email=" + email + ", address=" + address + ", initialBalance=" + initialBalance + ", password=" + password + '}';
     }
 
 }
