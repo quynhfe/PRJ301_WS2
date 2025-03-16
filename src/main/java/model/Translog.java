@@ -4,71 +4,83 @@
  */
 package model;
 
+import java.sql.Timestamp;
+
 /**
  *
  * @author ADMIN
  */
 public class Translog {
-    private String transID;
-    private String fromAccount;
-    private String toAccount;
+
+    private Integer transID;
+    private Integer fromAccount;
+    private Integer toAccount;
     private double amount;
-    private String timestamp;
+    private Timestamp timestamp;
+    private String message; 
 
     public Translog() {
     }
 
-    public Translog(String transID, String fromAccount, String toAccount, double amount, String timestamp) {
+    public Translog(Integer transID, Integer fromAccount, Integer toAccount, double amount, Timestamp timestamp, String message) {
         this.transID = transID;
         this.fromAccount = fromAccount;
         this.toAccount = toAccount;
         this.amount = amount;
         this.timestamp = timestamp;
-    }
-
-    public String getTransID() {
-        return transID;
-    }
-
-    public void setTransID(String transID) {
-        this.transID = transID;
-    }
-
-    public String getFromAccount() {
-        return fromAccount;
-    }
-
-    public void setFromAccount(String fromAccount) {
-        this.fromAccount = fromAccount;
-    }
-
-    public String getToAccount() {
-        return toAccount;
-    }
-
-    public void setToAccount(String toAccount) {
-        this.toAccount = toAccount;
-    }
-
-    public double getAmount() {
-        return amount;
+        this.message = message;
     }
 
     public void setAmount(double amount) {
         this.amount = amount;
     }
 
-    public String getTimestamp() {
+    public double getAmount() {
+        return amount;
+    }
+
+    public Integer getTransID() {
+        return transID;
+    }
+
+    public void setTransID(Integer transID) {
+        this.transID = transID;
+    }
+
+    public Integer getFromAccount() {
+        return fromAccount;
+    }
+
+    public void setFromAccount(Integer fromAccount) {
+        this.fromAccount = fromAccount;
+    }
+
+    public Integer getToAccount() {
+        return toAccount;
+    }
+
+    public void setToAccount(Integer toAccount) {
+        this.toAccount = toAccount;
+    }
+
+    public Timestamp getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(String timestamp) {
+    public void setTimestamp(Timestamp timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     @Override
     public String toString() {
-        return "Translog{" + "transID=" + transID + ", fromAccount=" + fromAccount + ", toAccount=" + toAccount + ", amount=" + amount + ", timestamp=" + timestamp + '}';
+        return "Translog{" + "transID=" + transID + ", fromAccount=" + fromAccount + ", toAccount=" + toAccount + ", amount=" + amount + ", timestamp=" + timestamp + ", message=" + message + '}';
     }
 }
-

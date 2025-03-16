@@ -5,6 +5,7 @@
 package controller;
 
 import data.AccountDB;
+import data.TranslogDB;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,7 +13,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import model.Customer;
+import model.Account;
 
 /**
  *
@@ -20,15 +21,6 @@ import model.Customer;
  */
 public class TransferServlet extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -46,31 +38,41 @@ public class TransferServlet extends HttpServlet {
         }
     }
 
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        AccountDB accountDB = new AccountDB();
-        HttpSession session = request.getSession();
-        Customer c = (Customer)session.getAttribute("customer");
-        System.out.println(c.toString());
-        System.out.println(accountDB.getAccountByIdNo(c.getIdNo()));
-        session.setAttribute("fromAccount", accountDB.getAccountByIdNo(c.getIdNo()));
-        request.getRequestDispatcher("/view/transferMoney.jsp").forward(request, response);
-    }
 
+    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        HttpSession session = request.getSession();
+        Integer toAccNo = Integer.parseInt(request.getParameter("toAccount"));
+        double amount = Double.parseDouble(request.getParameter("amount"));
+        String message = request.getParameter("message");
+        AccountDB accountDB = new AccountDB();
+        Account fromAcc = (Account) session.getAttribute("fromAccount");
+        Account toAcc = accountDB.getAccountByAccountNo(toAccNo);
+        if (toAcc == null) {
+            request.setAttribute("message1", "Account not existed");
+            request.getRequestDispatcher("/view/transferMoney.jsp").forward(request, response);
+        } else {
+            if (amount > accountDB.getBalance(fromAcc.getAccountNo())) {
+                request.setAttribute("message2", "Insufficient account balance");
+                request.getRequestDispatcher("/view/transferMoney.jsp").forward(request, response);
+            } else {
+                accountDB.transferMoney(amount, fromAcc, toAcc, message);
+                request.setAttribute("message3", "Transfer success");
+                TranslogDB translogDB = new TranslogDB();
+                session.setAttribute("transactions", translogDB.getTransaction(fromAcc.getAccountNo()));
+                request.getRequestDispatcher("/view/transferMoney.jsp").forward(request, response);
+            }
+
+        }
+
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
     @Override
     public String getServletInfo() {
         return "Short description";

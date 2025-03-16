@@ -40,6 +40,7 @@
         <input type="text" name="address" value="${sessionScope.customer.getAddress()}" required>
 
         <button type="submit">Update Information</button>
+        <p style="color: red; display: flex">${message}</p>
     </form>
 
     <p><a href="<%= request.getContextPath()%>/view/dashBoard.jsp">Back to Dashboard</a></p>

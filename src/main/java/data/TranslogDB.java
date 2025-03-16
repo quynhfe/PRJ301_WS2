@@ -7,6 +7,7 @@ package data;
 import common.Constant;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import model.Translog;
 
@@ -16,25 +17,35 @@ import model.Translog;
  */
 public class TranslogDB {
 
-    public ArrayList<Translog> getTransaction() {
+    public ArrayList<Translog> getTransaction(Integer fromAccount) {
         ArrayList<Translog> translogs = new ArrayList<>();
         try (PreparedStatement ps = DBContext.getConnection()
                 .prepareStatement(Constant.GET_TRANSACTION)) {
+            ps.setInt(1, fromAccount);
+            ps.setInt(2, fromAccount);
+
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                String transID = rs.getNString("transID");
-                String fromAccount = rs.getNString("fromAccount");
-                String toAccount = rs.getNString("toAccount");
+                Integer transID = rs.getInt("transID");
+                Integer toAccount = rs.getInt("toAccount");
                 double amount = rs.getDouble("amount");
-                String timestamp = rs.getNString("timestamp");
-                Translog tr = new Translog(transID, fromAccount, toAccount, amount, timestamp);
+                Timestamp timestamp = rs.getTimestamp("timestamp");
+                String message = rs.getNString("message");
+                Translog tr = new Translog(transID, fromAccount, toAccount, amount, timestamp, message);
                 translogs.add(tr);
             }
-            return translogs;
+            return translogs; 
         } catch (Exception e) {
-            System.out.println("Error Student DAO listAll in ");
+            System.out.println("Error get All Transaction ");
             e.printStackTrace();
         }
-        return null;
+        return translogs; 
+    }
+
+    public static void main(String[] args) {
+        TranslogDB translogDB = new TranslogDB();
+        for (Translog t : translogDB.getTransaction(100000)) {
+            System.out.println(t.toString());
+        }
     }
 }

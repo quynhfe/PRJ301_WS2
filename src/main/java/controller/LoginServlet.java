@@ -4,7 +4,9 @@
  */
 package controller;
 
+import data.AccountDB;
 import data.CustomerDB;
+import data.TranslogDB;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,7 +14,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.util.ArrayList;
+import model.Account;
 import model.Customer;
 
 /**
@@ -47,22 +49,27 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
+         HttpSession session = request.getSession();
         CustomerDB customerDB = new CustomerDB();
-        ArrayList<Customer> cusList = customerDB.getAllCustomer();
+        AccountDB accountDB = new AccountDB();
+        TranslogDB translogDB = new TranslogDB();
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-        for (Customer c : cusList) {
-            if (c.getEmail().equals(email) && c.getPassword().equals(password)) {
-                session.setAttribute("email", email);
-                session.setAttribute("password", password);
-                request.setAttribute("name", c.getFirstName() + " " + c.getLastName());
-                session.setAttribute("customer", c);
-                request.getRequestDispatcher("/view/dashBoard.jsp").forward(request, response);
-            }
+
+        Customer customer = customerDB.getCusByEmailAndPassword(email, password); 
+
+        if (customer != null) {
+            session.setAttribute("email", email);
+            session.setAttribute("name", customer.getFirstName() + " " + customer.getLastName());
+            session.setAttribute("customer", customer);
+            Account fromAccount = accountDB.getAccountByIdNo(customer.getIdNo());
+            session.setAttribute("fromAccount", fromAccount);
+            session.setAttribute("transactions", translogDB.getTransaction(fromAccount.getAccountNo()));
+            request.getRequestDispatcher("/view/dashBoard.jsp").forward(request, response);
+        } else {
+            request.setAttribute("error", "Wrong email or password");
+            request.getRequestDispatcher("/view/login.jsp").forward(request, response);
         }
-        request.setAttribute("error", "Wrong email or password");
-        request.getRequestDispatcher("/view/login.jsp").forward(request, response);
     }
 
     @Override

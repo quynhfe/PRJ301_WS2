@@ -4,6 +4,7 @@
  */
 package data;
 
+import com.oracle.wls.shaded.org.apache.bcel.generic.AALOAD;
 import common.Constant;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -51,6 +52,17 @@ public class AccountDB {
             System.out.println("Error get all account ");
             e.printStackTrace();
         }
+        return accList;
+    }
+
+    public Account getAccountByAccountNo(Integer accountNo) {
+        System.out.println(accountNo);
+        ArrayList<Account> aList = getAllAccount();
+        for (Account a : aList) {
+            if (a.getAccountNo() == accountNo) {
+                return a;
+            }
+        }
         return null;
     }
 
@@ -63,9 +75,10 @@ public class AccountDB {
         return null;
     }
 
-    public double getBalance(String accountNo) {
-        try (Connection conn = DBContext.getConnection(); PreparedStatement ps = conn.prepareStatement(Constant.GET_BALANCE)) {
-            ps.setString(1, accountNo);
+    public double getBalance(Integer accountNo) {
+        try (PreparedStatement ps = DBContext.getConnection()
+                .prepareStatement(Constant.GET_BALANCE)) {
+            ps.setInt(1, accountNo);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 return rs.getDouble("balance");
@@ -76,11 +89,9 @@ public class AccountDB {
         return -1;
     }
 
-    private boolean transferMoney(double amount, Account fromAcc, Account toAcc) {
+    public boolean transferMoney(double amount, Account fromAcc, Account toAcc, String message) {
         boolean check = false;
-        try (PreparedStatement ps = DBContext
-                .getConnection()
-                .prepareStatement(Constant.TRANSFER_MONEY)) {
+        try (Connection conn = DBContext.getConnection(); PreparedStatement ps = conn.prepareStatement(Constant.TRANSFER_MONEY)) {
             ps.setDouble(1, amount);
             ps.setInt(2, fromAcc.getAccountNo());
             ps.setDouble(3, amount);
@@ -89,12 +100,13 @@ public class AccountDB {
             ps.setInt(6, fromAcc.getAccountNo());
             ps.setInt(7, toAcc.getAccountNo());
             ps.setDouble(8, amount);
+            ps.setString(9, message);
             int result = ps.executeUpdate();
             if (result > 0) {
                 check = true;
             }
         } catch (Exception e) {
-            System.out.println("Error transfer money");
+            System.out.println("Error during money transfer: " + e.getMessage());
             e.printStackTrace();
         }
         return check;
@@ -106,6 +118,9 @@ public class AccountDB {
         for (Account a : accList) {
             System.out.println(a.toString());
         }
-
+        Account a = accountDB.getAccountByAccountNo(100000);
+        Account b = accountDB.getAccountByAccountNo(100002);
+        System.out.println(accountDB.transferMoney(300, a, b, "quynh"));
+        System.out.println("hihi" + accountDB.getAccountByAccountNo(100002));
     }
 }

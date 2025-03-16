@@ -29,7 +29,7 @@ public class DBContext {
 	}
 
 	public static Connection getConnection() throws SQLException {
-		return con;
+		return DriverManager.getConnection(url, username, password);
 	}
 
 	public static void main(String[] args) {

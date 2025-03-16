@@ -3,6 +3,7 @@ controller\UpdateServlet.class
 data\DBContext.class
 controller\RegistrationServlet.class
 data\TranslogDB.class
+controller\ChangePasswordServlet.class
 data\CustomerDB.class
 controller\TransferServlet.class
 com\mycompany\prj301_ws2\resources\JakartaEE10Resource.class

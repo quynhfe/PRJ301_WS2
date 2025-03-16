@@ -56,12 +56,12 @@ public class UpdateServlet extends HttpServlet {
         String address = request.getParameter("address");
         double initialBalance = Double.parseDouble(request.getParameter("initialBalance"));
         String password = request.getParameter("password");
-        System.out.println(idNo + firstName + lastName + phoneNo + email + address + initialBalance + password);
         Customer c = new Customer(idNo, firstName, lastName, phoneNo, email, address, initialBalance, password);
         CustomerDB cDB = new CustomerDB();
         cDB.updateCustomer(c);
         HttpSession session = request.getSession();
         session.setAttribute("customer", c);
+        request.setAttribute("message", "Information had been updated");
         request.getRequestDispatcher("/view/updateInformation.jsp").forward(request, response);
         
     }

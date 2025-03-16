@@ -47,12 +47,12 @@
         ul {
             list-style: none;
             padding: 0;
-            
+
         }
 
         ul li {
             margin: 15px 0;
-            
+
         }
 
         ul li a {
@@ -72,20 +72,21 @@
 
     </style>
     <body>
-            <h1 style="color: white; font-size:  80px; width: 50%; height: 100%; display: flex; flex-direction: column; justify-content: start; padding-top: 100px">E- Banking</h1>
-            <div class="dashboard">
-                <c:if test="${not empty sessionScope.name}">
-                    <p>Welcome, ${sessionScope.name}!</p>
-                </c:if>
+        <div style="color: white; font-size:  80px; width: 50%; height: 100%; display: flex; flex-direction: column; justify-content: start; padding-top: 100px">
+             <h1 style="color: white; font-size:  80px; width: 100%; display: flex; flex-direction: column; justify-content: start;  margin:  0">E- Banking</h1>
+            <c:if test="${not empty sessionScope.name}">
+            <p style="color: white; font-size:  30px; padding: 0">Welcome, ${sessionScope.name}!</p>
+        </c:if>
+    </div>
+    <div class="dashboard">
+        <ul>
+            <li><a href="<%= request.getContextPath()%>/view/changePassword.jsp">Change Password</a></li>
+            <li><a href="<%= request.getContextPath()%>/view/updateInformation.jsp">Update Personal Information</a></li>
+            <li><a href="<%= request.getContextPath()%>/view/transferMoney.jsp">Transfer Money</a></li>
+            <li><a href="<%= request.getContextPath()%>/view/transactionLog.jsp">View Transaction & Activity Log</a></li>
+            <li><a href="<%= request.getContextPath()%>/view/login.jsp" class="logout-btn">LOG OUT</a></li>
+        </ul>
+    </div>
 
-                <ul>
-                    <li><a href="<%= request.getContextPath()%>/view/changePassword.jsp">Change Password</a></li>
-                    <li><a href="<%= request.getContextPath()%>/view/updateInformation.jsp">Update Personal Information</a></li>
-                    <li><a href="<%= request.getContextPath()%>/view/transferMoney.jsp">Transfer Money</a></li>
-                    <li><a href="<%= request.getContextPath()%>/view/transactionLog.jsp">View Transaction & Activity Log</a></li>
-                    <li><a href="<%= request.getContextPath()%>/view/login.jsp" class="logout-btn">LOG OUT</a></li>
-                </ul>
-            </div>
-
-    </body>
+</body>
 </html>

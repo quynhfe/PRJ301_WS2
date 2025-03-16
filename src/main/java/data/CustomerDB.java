@@ -44,7 +44,7 @@
             boolean check = false;
             try (PreparedStatement ps = DBContext
                     .getConnection()
-                    .prepareStatement(Constant.CUSTOMER_ALL_UPDATE)) {
+                    .prepareStatement(Constant.CUSTOMER_UPDATE_ALL)) {
                 ps.setNString(1, c.getFirstName());
                 ps.setNString(2, c.getLastName());
                 ps.setNString(3, c.getPhoneNo());
@@ -53,6 +53,24 @@
                 ps.setDouble(6, c.getInitialBalance());
                 ps.setNString(7, c.getPassword());
                 ps.setString(8, c.getIdNo());
+                int result = ps.executeUpdate();
+                if (result > 0) {
+                    check = true;
+                }
+            } catch (Exception e) {
+                System.out.println("Error update Customer");
+                e.printStackTrace();
+            }
+            return check;
+        }
+        
+        public boolean changePasswordCustomer(Customer c, String newpassword) {
+            boolean check = false;
+            try (PreparedStatement ps = DBContext
+                    .getConnection()
+                    .prepareStatement(Constant.CUSTOMER_CHANGE_PASSWORD)) {
+                ps.setNString(1, newpassword);
+                ps.setString(2, c.getIdNo());
                 int result = ps.executeUpdate();
                 if (result > 0) {
                     check = true;
@@ -85,18 +103,27 @@
                 System.out.println("Error get all cus ");
                 e.printStackTrace();
             }
+            return accList;
+        }
+        
+        public Customer getCusByEmailAndPassword(String email, String password){
+            for(Customer c: getAllCustomer()){
+                if(c.getEmail().equals(email) && c.getPassword().equals(password)){
+                    return c;
+                }
+            }
             return null;
         }
-
-//        public static void main(String[] args) {
-//            CustomerDB cus = new CustomerDB();
-//            for (Customer c : cus.getAllCustomer()) {
-//                System.out.println(c.toString());
-//            }
+        public static void main(String[] args) {
+            CustomerDB cus = new CustomerDB();
+            for (Customer c : cus.getAllCustomer()) {
+                System.out.println(c.toString());
+            }
+            cus.changePasswordCustomer(cus.getCusByEmailAndPassword("an@gmail.com", "123"), "an");
 //            Customer ct = new Customer("123456781", "Nguyen", "Tu", "0828197797", "an@gmail.com", "123 ABC", 5000, "an");
 //            cus.updateCustomer(ct);
-//            for (Customer c : cus.getAllCustomer()) {
-//                System.out.println(c.toString());
-//            }
-//        }
+            for (Customer c : cus.getAllCustomer()) {
+                System.out.println(c.toString());
+            }
+        }
     }
